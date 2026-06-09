@@ -1,0 +1,19 @@
+name: Run Unit Tests #nome do meu workflow (sequencia automatizada de ações)
+
+on: [push] # o que esta abaixo vai acontecer ao ocorrer um push (envio de código) para o repositório
+
+jobs: # jobs (tarefas) que ele vai executar
+  run-unit-tests:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+
+    # os uses são ações pré-definidas que o GitHub disponibiliza para facilitar a configuração do ambiente e execução de tarefas comuns
+
+    steps:
+      - uses: actions/checkout@v3 # Baixar o código do repositório para o ambiente de execução (ubuntu criado)
+      - uses: actions/setup-node@v3 # ação para configurar o ambiente Node.js
+        with:
+          node-version: "18" # versão do Node.js a ser usada
+          cache: "npm" # cache para acelerar as instalações de dependências
+      - run: npm ci # comando para instalar as dependências do projeto sem ficar perguntando (y ou n)
+      - run: npm run test # comando para rodar os testes unitários
